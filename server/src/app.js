@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.set("view engine", "ejs").use(cors()).use(json()).use(authRouter);
+app.set("view engine", "ejs").use(cors()).use(json()).use("/auth", authRouter);
 //   .use("/", express.static("public"))
 
 export default app;
