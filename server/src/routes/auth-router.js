@@ -1,9 +1,17 @@
 import { Router } from "express";
-import { authLogin, googleLogin } from "../controllers/auth.controller.js";
+import {
+  authLogin,
+  googleLogin,
+  logout,
+} from "../controllers/auth.controller.js";
 
 const authRouter = Router();
-// CUSTOM LOGIN
-// GOOGLE LOGIN
-authRouter.get("/login", authLogin).get("/google", googleLogin);
+authRouter
+  // CUSTOM LOGIN
+  .get("/login", authLogin)
+  // GOOGLE LOGIN
+  .get("/google", googleLogin)
+  //LOGOUT
+  .get("/logout", logout);
 
 export default authRouter;
