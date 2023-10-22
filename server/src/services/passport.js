@@ -2,8 +2,7 @@ import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
 import dotenv from "dotenv";
 dotenv.config();
-console.log(GOOGLE_CLIENT_ID);
-passport.use(
+export default passport.use(
   new GoogleStrategy(
     {
       callbackURL: "/auth/google/redirect",
