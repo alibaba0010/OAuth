@@ -10,7 +10,7 @@ export default passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       scope: ["profile"],
     },
-    () => {
+    (accessToken, refreshToken, profile, done) => {
       console.log("Google login");
     }
   )
