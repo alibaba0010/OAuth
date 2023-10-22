@@ -8,7 +8,10 @@ export default passport.use(
       callbackURL: "/auth/google/redirect",
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      scope: ["profile"],
     },
-    () => {}
+    () => {
+      console.log("Google login");
+    }
   )
 );

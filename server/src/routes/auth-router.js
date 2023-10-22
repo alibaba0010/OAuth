@@ -2,15 +2,20 @@ import { Router } from "express";
 import {
   authLogin,
   googleLogin,
+  googleRedirect,
   logout,
 } from "../controllers/auth.controller.js";
-import { passportMiddleware } from "../middlewares/passport-middleware.js";
+import passport from "passport";
+import passportSetup from "../services/passport.js";
+
 const authRouter = Router();
 authRouter
   // CUSTOM LOGIN
   .get("/login", authLogin)
   // GOOGLE LOGIN
-  .get("/google", passportMiddleware, googleLogin)
+  .get("/google", passport.authenticate("google"))
+  //GOGGLE REDIRECT
+  .get("/google/redirect", passport.authenticate("google"), googleRedirect)
   //LOGOUT
   .get("/logout", logout);
 

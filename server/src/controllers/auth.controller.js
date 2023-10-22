@@ -9,3 +9,7 @@ export const googleLogin = async (req, res) => {
 };
 
 export const logout = async (req, res) => {};
+
+export const googleRedirect = async (req, res) => {
+  res.json({ message: "You're now redirected" });
+};
