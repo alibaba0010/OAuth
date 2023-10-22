@@ -12,6 +12,9 @@ export default passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       console.log("Google login");
+      console.log("Access Token: ", accessToken);
+      console.log("Refresh Token: ", refreshToken);
+      console.log("Profile: ", profile);
     }
   )
 );
