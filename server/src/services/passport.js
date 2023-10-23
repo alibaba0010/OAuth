@@ -2,6 +2,7 @@ import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
 import dotenv from "dotenv";
 dotenv.config();
+import User from "../models/user.mongo.js";
 export default passport.use(
   new GoogleStrategy(
     {
@@ -15,6 +16,15 @@ export default passport.use(
       console.log("Access Token: ", accessToken);
       console.log("Refresh Token: ", refreshToken);
       console.log("Profile: ", profile);
+      const { id, displayName } = profile;
+      new User({
+        username: displayName,
+        googleId: id,
+      })
+        .save()
+        .then((newUser) => {
+          console.log("New User created: ", newUser);
+        });
     }
   )
 );
