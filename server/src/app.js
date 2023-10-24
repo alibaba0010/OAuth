@@ -2,7 +2,7 @@ import express, { json } from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
 import cors from "cors";
-import authRouter from "./routes/auth-router.js";
+import authRouter from "./routes/auth.router.js";
 import dotenv from "dotenv";
 import passport from "passport";
 
