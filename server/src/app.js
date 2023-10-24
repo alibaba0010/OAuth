@@ -10,6 +10,7 @@ dotenv.config();
 
 import path from "path";
 import { fileURLToPath } from "url";
+import profileRouter from "./routes/profile.router.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -26,6 +27,8 @@ app
   )
   .use(passport.initialize())
   .use(passport.session())
-  .use("/auth", authRouter);
+  .use(passport.session())
+  .use("/auth", authRouter)
+  .use("/", profileRouter);
 
 export default app;
