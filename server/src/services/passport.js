@@ -22,14 +22,13 @@ export default passport.use(
       scope: ["profile"],
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log("Google login");
       console.log("Access Token: ", accessToken);
-      console.log("Refresh Token: ", refreshToken);
       console.log("Profile: ", profile);
       const { id, displayName } = profile;
       User.findOne({ googleId: id }).then((currentUser) => {
-        console.log("In current User: ", currentUser);
         if (currentUser) {
+          console.log("In current User: ", currentUser);
+
           done(null, currentUser);
         } else {
           new User({
