@@ -4,17 +4,28 @@ import cookieSession from "cookie-session";
 import cors from "cors";
 import authRouter from "./routes/auth-router.js";
 import dotenv from "dotenv";
+import passport from "passport";
 
 dotenv.config();
 
 import path from "path";
 import { fileURLToPath } from "url";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.set("view engine", "ejs").use(cors()).use(json()).use("/auth", authRouter);
-//   .use("/", express.static("public"))
+app
+  .set("view engine", "ejs")
+  .use(cors())
+  .use(json())
+  .use(
+    cookieSession({
+      maxAge: 24 * 60 * 60 * 1000,
+      keys: process.env.COOKIE_KEY,
+    })
+  )
+  .use(passport.initialize())
+  .use(passport.session())
+  .use("/auth", authRouter);
 
 export default app;
