@@ -34,6 +34,7 @@ export default passport.use(
           new User({
             username: displayName,
             googleId: id,
+            thumbnail: profile._json.picture,
           })
             .save()
             .then((newUser) => {

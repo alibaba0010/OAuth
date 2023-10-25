@@ -1,6 +1,6 @@
 import passport from "passport";
 export const authLogin = async (req, res) => {
-  res.render("login");
+  res.render("login", { user: req.user });
 };
 export const googleLogin = async (req, res) => {
   //handling with passport
@@ -8,7 +8,11 @@ export const googleLogin = async (req, res) => {
   res.json({ message: "In google" });
 };
 
-export const logout = async (req, res) => {};
+export const logout = async (req, res) => {
+  req.logout();
+  req.session = null;
+  res.redirect("/");
+};
 
 export const googleRedirect = async (req, res) => {
   console.log("User: ", req.user);
