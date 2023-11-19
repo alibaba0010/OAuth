@@ -15,7 +15,6 @@ export const logout = async (req, res) => {
 };
 
 export const googleRedirect = async (req, res) => {
-  console.log("User: ", req.user);
   res.redirect("/profile");
-  res.json({ message: "You're now redirected" });
+  // res.json({ message: "You're now redirected" });
 };
