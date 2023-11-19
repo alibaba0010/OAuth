@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import User from "../models/user.mongo.js";
 passport.serializeUser((user, done) => {
-  console.log("In serializeUser: ", user);
+  // console.log("In serializeUser: ", user);
   done(null, user.id);
 });
 passport.deserializeUser((id, done) => {
@@ -22,12 +22,12 @@ export default passport.use(
       scope: ["profile"],
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log("Access Token: ", accessToken);
-      console.log("Profile: ", profile);
+      // console.log("Access Token: ", accessToken);
+      // console.log("Profile: ", profile);
       const { id, displayName } = profile;
       User.findOne({ googleId: id }).then((currentUser) => {
         if (currentUser) {
-          console.log("In current User: ", currentUser);
+          // console.log("In current User: ", currentUser);
 
           done(null, currentUser);
         } else {

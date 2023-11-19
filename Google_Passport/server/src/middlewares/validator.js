@@ -1,4 +1,7 @@
 export const validateUser = (req, res, next) => {
-  if (req.user) next();
+  console.log("User: ", req.user);
+  if (req.user) {
+    next();
+  }
   res.redirect("/auth/login");
 };
