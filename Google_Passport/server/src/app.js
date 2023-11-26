@@ -13,22 +13,20 @@ import { fileURLToPath } from "url";
 import profileRouter from "./routes/profile.router.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const app = express();
 app
   .set("view engine", "ejs")
-  .use(cors())
-  .use(json())
   .use(
     cookieSession({
       maxAge: 24 * 60 * 60 * 1000,
       keys: process.env.COOKIE_KEY,
     })
   )
+  .use(cors())
+  .use(json())
   .use(passport.initialize())
   .use(passport.session())
   .use(passport.session())
-  .use("/auth", authRouter)
-  .use(profileRouter);
-
+  .use(profileRouter)
+  .use("/auth", authRouter);
 export default app;

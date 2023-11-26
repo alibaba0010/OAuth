@@ -1,5 +1,6 @@
 import passport from "passport";
 export const authLogin = (req, res) => {
+  console.log("User login: ", req.user);
   res.render("login", { user: req.user });
 };
 export const googleLogin = (req, res) => {
