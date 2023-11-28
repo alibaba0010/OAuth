@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
-const GITHUB_CLIENT_ID = "";
+const GITHUB_CLIENT_ID = "dddsdk";
 const gitHubRedirectURL = "http://localhost:4000/api/v1/auth/github";
 const path = "/";
 
