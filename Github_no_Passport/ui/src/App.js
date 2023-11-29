@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     (async function () {
       const usr = await axios
-        .get(`http://localhost:4000/api/me`, {
+        .get(`http://localhost:4000/api/v1/me`, {
           withCredentials: true,
         })
         .then((res) => res.data);
