@@ -1,3 +1,3 @@
 # Github OAuth
 
-npm i cors axios cookie-session jsonwebtoken lodash nanoid
+npm i -D @types/cookie-session @types/cors @types/express @types/jsonwebtoken @types/lodash @types/node nodemon ts-node typescript

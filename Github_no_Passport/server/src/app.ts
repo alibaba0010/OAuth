@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import querystring from "querystring";
 import jwt from "jsonwebtoken";
 import { get } from "lodash";
-import cookieParser from "cookie-parser";
+import cookieParser from "cookie-session";
 import axios from "axios";
 import cors from "cors";
 
