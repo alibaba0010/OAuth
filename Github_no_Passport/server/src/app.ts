@@ -2,14 +2,14 @@ import express, { Request, Response } from "express";
 import querystring from "querystring";
 import jwt from "jsonwebtoken";
 import { get } from "lodash";
-// import cookieParser from "cookie-session";
+import cookieParser from "cookie-parser";
 import axios from "axios";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
-// app.use(cookieParser());
+app.use(cookieParser());
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const secret = "QsOMK5leUgi69xDo";
@@ -57,7 +57,7 @@ export interface GitHubUser {
   updated_at: Date;
 }
 
-async function getGitHubUser({ code }: { code: string }): Promise<GitHubUser> {
+async function getGitHubUser(code: string | string[]): Promise<GitHubUser> {
   const githubToken = await axios
     .post(
       `https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_CLIENT_SECRET}&code=${code}`
@@ -66,6 +66,7 @@ async function getGitHubUser({ code }: { code: string }): Promise<GitHubUser> {
     .catch((error) => {
       throw error;
     });
+  console.log("Github ...", githubToken);
   const decoded = querystring.parse(githubToken);
   const accessToken = decoded.access_token;
   return axios
@@ -80,21 +81,21 @@ async function getGitHubUser({ code }: { code: string }): Promise<GitHubUser> {
 }
 
 app.get("/api/v1/auth/github", async (req: Request, res: Response) => {
-  const code = get(req, "query.code");
-  const path = get(req, "query.path", "/");
+  const code = req.query.code as string;
+  const { path } = req.query;
 
   if (!code) {
     throw new Error("No code!");
   }
+  const gitHubUser = await getGitHubUser(code);
+  console.log("User: ", gitHubUser);
 
-  // const gitHubUser = await getGitHubUser({ code });
+  const token = jwt.sign(gitHubUser, secret);
 
-  // const token = jwt.sign(gitHubUser, secret);
-
-  // res.cookie(process.env.COOKIE_NAME, token, {
-  //   httpOnly: true,
-  //   domain: "localhost",
-  // });
+  res.cookie(token, {
+    httpOnly: true,
+    domain: "localhost",
+  });
 
   res.redirect(`http://localhost:3000${path}`);
 });
