@@ -1,6 +1,20 @@
 # Github OAuth without PassportJS
 
 (https://github.com/jaredhanson/passport-github)
-clientId = f04813941fc4ea88d8c7
 
-clientSecret=970262b63aef6ba1be324a186825fff55105994a
+git clone repo
+
+```
+cd ui
+Run npm install
+
+Run npm start
+
+cd server
+
+Add .env file in the server directory
+
+Run npm install
+
+Run npm run dev
+```
