@@ -13,7 +13,8 @@ app.use(cookieParser());
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const secret = "QsOMK5leUgi69xDo";
-const COOKIE_NAME = process.env.COOKIE_NAME;
+// const COOKIE_NAME = process.env.COOKIE_NAME;
+const COOKIE_NAME = "github_jwt";
 
 app.use(
   cors({
@@ -88,11 +89,10 @@ app.get("/api/v1/auth/github", async (req: Request, res: Response) => {
     throw new Error("No code!");
   }
   const gitHubUser = await getGitHubUser(code);
-  console.log("User: ", gitHubUser);
 
   const token = jwt.sign(gitHubUser, secret);
 
-  res.cookie(token, {
+  res.cookie(COOKIE_NAME, token, {
     httpOnly: true,
     domain: "localhost",
   });
