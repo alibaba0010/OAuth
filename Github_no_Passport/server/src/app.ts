@@ -2,18 +2,18 @@ import express, { Request, Response } from "express";
 import querystring from "querystring";
 import jwt from "jsonwebtoken";
 import { get } from "lodash";
-import cookieParser from "cookie-session";
+// import cookieParser from "cookie-session";
 import axios from "axios";
 import cors from "cors";
-
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 
-app.use(cookieParser());
-
-const GITHUB_CLIENT_ID = "";
-const GITHUB_CLIENT_SECRET = "";
+// app.use(cookieParser());
+// const GITHUB_CLIENT_ID = "";
+// const GITHUB_CLIENT_SECRET = "";
 const secret = "shhhhhhhhhhhh";
-const COOKIE_NAME = "github-jwt";
+// const COOKIE_NAME = "github-jwt";
 
 app.use(
   cors({
@@ -60,18 +60,14 @@ export interface GitHubUser {
 async function getGitHubUser({ code }: { code: string }): Promise<GitHubUser> {
   const githubToken = await axios
     .post(
-      `https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_CLIENT_SECRET}&code=${code}`
+      `https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}&code=${code}`
     )
     .then((res) => res.data)
-
     .catch((error) => {
       throw error;
     });
-
   const decoded = querystring.parse(githubToken);
-
   const accessToken = decoded.access_token;
-
   return axios
     .get("https://api.github.com/user", {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -91,20 +87,20 @@ app.get("/api/auth/github", async (req: Request, res: Response) => {
     throw new Error("No code!");
   }
 
-  const gitHubUser = await getGitHubUser({ code });
+  // const gitHubUser = await getGitHubUser({ code });
 
-  const token = jwt.sign(gitHubUser, secret);
+  // const token = jwt.sign(gitHubUser, secret);
 
-  res.cookie(COOKIE_NAME, token, {
-    httpOnly: true,
-    domain: "localhost",
-  });
+  // res.cookie(process.env.COOKIE_NAME, token, {
+  //   httpOnly: true,
+  //   domain: "localhost",
+  // });
 
   res.redirect(`http://localhost:3000${path}`);
 });
 
 app.get("/api/me", (req: Request, res: Response) => {
-  const cookie = get(req, `cookies[${COOKIE_NAME}]`);
+  const cookie = get(req, `cookies[${process.env.COOKIE_NAME}]`);
 
   try {
     const decode = jwt.verify(cookie, secret);

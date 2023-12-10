@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
-const GITHUB_CLIENT_ID = "dddsdk";
+const GITHUB_CLIENT_ID = "f04813941fc4ea88d8c7";
 const gitHubRedirectURL = "http://localhost:4000/api/v1/auth/github";
 const path = "/";
 
+console.log("Hello");
 function App() {
   const [user, setUser] = useState();
 
