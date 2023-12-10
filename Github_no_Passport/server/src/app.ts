@@ -10,10 +10,10 @@ dotenv.config();
 const app = express();
 
 // app.use(cookieParser());
-// const GITHUB_CLIENT_ID = "";
-// const GITHUB_CLIENT_SECRET = "";
-const secret = "shhhhhhhhhhhh";
-// const COOKIE_NAME = "github-jwt";
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+const secret = "QsOMK5leUgi69xDo";
+const COOKIE_NAME = process.env.COOKIE_NAME;
 
 app.use(
   cors({
@@ -60,7 +60,7 @@ export interface GitHubUser {
 async function getGitHubUser({ code }: { code: string }): Promise<GitHubUser> {
   const githubToken = await axios
     .post(
-      `https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}&code=${code}`
+      `https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_CLIENT_SECRET}&code=${code}`
     )
     .then((res) => res.data)
     .catch((error) => {
@@ -79,7 +79,7 @@ async function getGitHubUser({ code }: { code: string }): Promise<GitHubUser> {
     });
 }
 
-app.get("/api/auth/github", async (req: Request, res: Response) => {
+app.get("/api/v1/auth/github", async (req: Request, res: Response) => {
   const code = get(req, "query.code");
   const path = get(req, "query.path", "/");
 
@@ -99,8 +99,8 @@ app.get("/api/auth/github", async (req: Request, res: Response) => {
   res.redirect(`http://localhost:3000${path}`);
 });
 
-app.get("/api/me", (req: Request, res: Response) => {
-  const cookie = get(req, `cookies[${process.env.COOKIE_NAME}]`);
+app.get("/api/v1/me", (req: Request, res: Response) => {
+  const cookie = get(req, `cookies[${COOKIE_NAME}]`);
 
   try {
     const decode = jwt.verify(cookie, secret);
