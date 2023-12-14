@@ -2,7 +2,7 @@ import express, { json } from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import passport from "passport";
-
+// import GooleStrategy from "./src/routes/middlewares/google.js";
 import path, { join } from "path";
 import { fileURLToPath } from "url";
 import authRouter from "./src/routes/auth.route.js";
@@ -16,6 +16,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(json());
 app.use(passport.initialize());
+// passport.use(GooleStrategy)
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static("public"));
@@ -24,7 +25,7 @@ app.use(express.static(join(__dirname + "/node_modules/bootstrap/dist")));
 app.get("/", async (req, res) => {
   res.sendFile(join(__dirname, "public", "auth.html"));
 });
-app.use(authRouter);
+app.use("/auth", authRouter);
 
 app.listen(8000, () => {
   console.log("app listening port 8000");
