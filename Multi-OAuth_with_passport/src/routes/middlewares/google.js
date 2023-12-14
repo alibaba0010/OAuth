@@ -4,6 +4,19 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// used to serialize the user for the session
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+  // user.id is going to req.session.passport.user
+});
+
+// used to deserialize the user
+passport.deserializeUser((id, done) => {
+  // User.findById(id, function (err, user) {
+  done(null, user);
+  // });
+});
+
 export default passport.use(
   new GoogleStrategy(
     {
