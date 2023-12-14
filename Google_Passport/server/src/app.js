@@ -26,7 +26,6 @@ app
   .use(json())
   .use(passport.initialize())
   .use(passport.session())
-  .use(passport.session())
   .use(profileRouter)
   .use("/auth", authRouter);
 export default app;

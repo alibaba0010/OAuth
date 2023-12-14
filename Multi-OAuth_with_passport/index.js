@@ -15,7 +15,8 @@ const app = express();
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(json());
-app.use(passport.initialize());
+app.use(passport.initialize()).use(passport.session());
+
 // passport.use(GooleStrategy)
 app.use(express.urlencoded({ extended: false }));
 
