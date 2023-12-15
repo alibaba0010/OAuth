@@ -25,7 +25,7 @@ export default passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log("Profile is .....", JSON.stringify(profile));
+      console.log("Profile is .....", profile);
       return done(null, profile);
     }
   )
