@@ -2,6 +2,7 @@ import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
 import dotenv from "dotenv";
 import connection from "../utils/db.js";
+import { addUser } from "../controller/auth.js";
 
 dotenv.config();
 
@@ -25,9 +26,14 @@ export default passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
-    (accessToken, refreshToken, profile, done) => {
-      console.log("Profile is .....", profile);
-      return done(null, profile);
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const user = await addUser(profile);
+        console.log("User .... ", user);
+      } catch (error) {
+        // return done(null, profile);
+        console.log(error);
+      }
     }
   )
 );
