@@ -13,8 +13,9 @@ export const addUser = async (profile) => {
   if (userExists.rowCount == 0) {
     // if user doesn't exist
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(profile.id, salt);
+    const hashedPassword = await bcrypt.hash(id, salt);
     const user_id = id;
+    // const user_id = "23";
     const full_name = displayName || username || null;
     const email = profile["_json"].email || null;
 

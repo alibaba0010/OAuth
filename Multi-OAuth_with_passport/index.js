@@ -49,7 +49,7 @@ connection
   .then((conninfo) => {
     console.log("Connected to DB");
     app.listen(8000, () => {
-      console.log("app lis)tening port 8000");
+      console.log("app listening port 8000");
     });
   })
   .catch((err) => {
