@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 // import GooleStrategy from "./src/routes/middlewares/google.js";
 import path, { join } from "path";
 import { fileURLToPath } from "url";
+import connection from "./src/routes/utils/db.js";
 import authRouter from "./src/routes/auth.route.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -43,6 +44,15 @@ app.get("/", async (req, res) => {
 });
 app.use("/auth", authRouter);
 
-app.listen(8000, () => {
-  console.log("app lis)tening port 8000");
-});
+connection
+  .connect()
+  .then((conninfo) => {
+    console.log("Connected to DB");
+    app.listen(8000, () => {
+      console.log("app lis)tening port 8000");
+    });
+  })
+  .catch((err) => {
+    console.log("Error connecting to db");
+    process.exit(1);
+  });
