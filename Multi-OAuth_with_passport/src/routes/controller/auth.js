@@ -35,3 +35,10 @@ export const addUser = async (profile) => {
     return "User already eists";
   }
 };
+export const addLocalUser = async (req, res) => {
+  const { password, fullname, email } = req.body;
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(id, salt);
+  } catch (error) {}
+};
