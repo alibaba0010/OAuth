@@ -16,5 +16,7 @@ authRouter
     function (req, res) {
       res.redirect("/");
     }
-  );
+  )
+  //local routes
+  .pist("/local/register");
 export default authRouter;
