@@ -12,16 +12,16 @@ export const googleAuth = async (req, res) => {
 export const addUser = async (profile) => {
   const { id, provider, displayName, username } = profile;
   const userExists = await connection.query(getUserByUserId, [id]);
-  if (userExists.rowCount == 0) {
-    // if user doesn't exist
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(id, salt);
-    const user_id = id;
-    // const user_id = "23";
-    const full_name = displayName || username || null;
-    const email = profile["_json"].email || null;
+  try {
+    if (userExists.rowCount == 0) {
+      // if user doesn't exist
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(id, salt);
+      const user_id = id;
+      // const user_id = "23";
+      const full_name = displayName || username || null;
+      const email = profile["_json"].email || null;
 
-    try {
       const user = await connection.query(addUsers, [
         user_id,
         provider,
@@ -30,11 +30,9 @@ export const addUser = async (profile) => {
         full_name,
       ]);
       return user;
-    } catch (error) {
-      return error;
     }
-  } else {
-    console.log("User already eists");
+  } catch (error) {
+    return error;
   }
 };
 export const addLocalUser = async (req, res) => {

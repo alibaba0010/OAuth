@@ -9,7 +9,7 @@ import path, { join } from "path";
 import { fileURLToPath } from "url";
 import connection from "./src/routes/utils/db.js";
 import authRouter from "./src/routes/auth.route.js";
-import { getUserByUserId } from "./src/routes/utils/Query.js";
+import { checkEmailExists, getUserByUserId } from "./src/routes/utils/Query.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,7 +39,6 @@ app.get("/", async (req, res) => {
   if (req.isAuthenticated()) {
     // res.send(`<h2>You're logged in successfully ${req.user}</h2>`);
     const { user_id } = req.user;
-    console.log("User id: ", req.user);
     const checkProvider = await connection.query(getUserByUserId, [user_id]);
     res.json({
       messge: `<h1>Hello you're logged in with provider ${checkProvider.rows[0].provider}</h1>`,

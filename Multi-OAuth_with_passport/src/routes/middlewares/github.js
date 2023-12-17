@@ -1,6 +1,9 @@
 import passport from "passport";
 import GitHubStrategy from "passport-github2";
 import { addUser } from "../controller/auth.js";
+import connection from "../utils/db.js";
+import { getUserByUserId } from "../utils/Query.js";
+
 export default passport.use(
   new GitHubStrategy(
     {
@@ -10,6 +13,12 @@ export default passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        const checkIfUserExists = await connection.query(getUserByUserId, [
+          profile.id,
+        ]);
+        if (checkIfUserExists) {
+          return done(null, checkIfUserExists.rows[0]);
+        }
         const user = await addUser(profile);
         console.log("User in github", user);
         return done(null, user);
