@@ -7,10 +7,10 @@ import TwitterStrategy from "./middlewares/twitter.js";
 const authRouter = Router();
 
 authRouter
+  // google routes
   .get(
     "/google",
-    passport.authenticate("google", { scope: ["profile", "email"] }),
-    googleAuth
+    passport.authenticate("google", { scope: ["profile", "email"] })
   )
   .get(
     "/google/callback",
@@ -21,5 +21,15 @@ authRouter
   )
   //local routes
   .post("/local/register", addLocalUser)
-  .post("/local/login", loginlocalUser);
+  .post("/local/login", loginlocalUser)
+
+  // twitter routes
+  .get("/twitter", passport.authenticate("twitter"))
+  .get(
+    "/twitter/callback",
+    passport.authenticate("twitter", { failureRedirect: "/login" }),
+    function (req, res) {
+      res.redirect("/");
+    }
+  );
 export default authRouter;

@@ -8,7 +8,7 @@ export default passport.use(
     {
       consumerKey: process.env.TWITTER_KEY,
       consumerSecret: process.env.TWITTER_SECRET,
-      callbackURL: "/auth/twitter/callback",
+      callbackURL: "http://127.0.0.1:8000/auth/twitter/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
