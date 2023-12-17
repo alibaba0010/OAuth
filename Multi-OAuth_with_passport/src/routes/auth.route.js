@@ -4,6 +4,7 @@ import passport from "passport";
 import GoogleStrategy from "./middlewares/google.js";
 import LocalStrategy from "./middlewares/local.js";
 import TwitterStrategy from "./middlewares/twitter.js";
+import GitHubStrategy from "./middlewares/github.js";
 const authRouter = Router();
 
 authRouter
@@ -29,6 +30,17 @@ authRouter
     "/twitter/callback",
     passport.authenticate("twitter", { failureRedirect: "/login" }),
     function (req, res) {
+      res.redirect("/");
+    }
+  )
+  // github routes
+  .get("/github", passport.authenticate("github", { scope: ["user:email"] }))
+
+  .get(
+    "/github/callback",
+    passport.authenticate("github", { failureRedirect: "/login" }),
+    function (req, res) {
+      // Successful authentication, redirect home.
       res.redirect("/");
     }
   );
