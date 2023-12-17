@@ -1,7 +1,8 @@
 import LocalStrategy from "passport-local";
 import connection from "../utils/db.js";
 import bcrypt from "bcrypt";
-import { getUserById } from "../utils/Query.js";
+import passport from "passport";
+import { checkEmailExists, getUserById } from "../utils/Query.js";
 export default passport.use(
   new LocalStrategy(
     { usernameField: "emaillog", passwordField: "passwordlog" },

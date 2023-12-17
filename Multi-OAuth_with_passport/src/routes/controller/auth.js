@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import connection from "../utils/db.js";
 import { v4 as uuidv4 } from "uuid";
 import { addUsers, getAllUsersQuery, getUserById } from "../utils/Query.js";
+import passport from "passport";
 export const googleAuth = async (req, res) => {
   res.send("google is here");
 };
@@ -56,11 +57,26 @@ export const addLocalUser = async (req, res) => {
   } catch (error) {
     res.json({
       success: false,
-      errrorMessage: "Error occurred",
+      errorMessage: "Error occurred",
     });
   }
 };
 
-export const loginlocalUser = async (req, res) => {
-  const { email, password } = req.body;
+export const loginlocalUser = async (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.status(403).json({
+        success: false,
+        errorMessage: "Wrong email or password",
+      });
+    }
+    req.login(user, (err) => {
+      if (err) return next(err);
+      return res.status(200).json({
+        success: true,
+        message: "Login successfully",
+      });
+    });
+  })(req, res, next);
 };
