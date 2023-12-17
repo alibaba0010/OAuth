@@ -49,16 +49,18 @@ export const addLocalUser = async (req, res) => {
       hashedPassword,
       full_name,
     ]);
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "You've succesfuly registered you can login now",
-      });
+    res.status(200).json({
+      success: true,
+      message: "You've succesfuly registered you can login now",
+    });
   } catch (error) {
     res.json({
       success: false,
       errrorMessage: "Error occurred",
     });
   }
+};
+
+export const loginlocalUser = async (req, res) => {
+  const { email, password } = req.body;
 };

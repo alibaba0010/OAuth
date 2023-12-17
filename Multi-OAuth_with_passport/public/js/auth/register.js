@@ -10,13 +10,11 @@ export function registerFunc(serialized) {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          console.log("Data: ", data);
           return resolve(data.message);
         }
         return reject(new Error(data.errorMessage));
       })
       .catch((err) => {
-        console.log("Error: ", err);
         return reject(new Error("Something went wrong, try again please"));
       });
   });
