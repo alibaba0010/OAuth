@@ -12,6 +12,8 @@ export default passport.use(
       callbackURL: "/auth/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log("Access token: ", accessToken);
+      console.log("Refresh token: ", refreshToken); // undefined
       try {
         const checkIfUserExists = await connection.query(getUserByUserId, [
           profile.id,

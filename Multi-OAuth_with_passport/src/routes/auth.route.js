@@ -43,4 +43,11 @@ authRouter
       res.redirect("/");
     }
   );
+// route for twitter authentication and login
+authRouter.get("/twitter", function (req, res, next) {
+  req.session.referrer = req.url;
+  console.log(req.session);
+  passport.authenticate("twitter")(req, res, next);
+});
+
 export default authRouter;

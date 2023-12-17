@@ -13,6 +13,8 @@ export default passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         console.log("Profile id", profile.id);
+        console.log("Access token: ", accessToken);
+        console.log("Refresh token: ", refreshToken);
         const checkIfUserExists = await connection.query(getUserByUserId, [
           profile.id,
         ]);
