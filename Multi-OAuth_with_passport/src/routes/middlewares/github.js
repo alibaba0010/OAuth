@@ -10,7 +10,8 @@ export default passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        await addUser(profile);
+        const user = await addUser(profile);
+        return done(null, user);
       } catch (error) {
         console.log(error);
         return done(error);

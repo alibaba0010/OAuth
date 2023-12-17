@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import connection from "../utils/db.js";
 import { v4 as uuidv4 } from "uuid";
-import { addUsers, getAllUsersQuery, getUserById } from "../utils/Query.js";
+import { addUsers, getAllUsersQuery, getUserByUserId } from "../utils/Query.js";
 import passport from "passport";
 export const googleAuth = async (req, res) => {
   res.send("google is here");
@@ -11,7 +11,7 @@ export const googleAuth = async (req, res) => {
 
 export const addUser = async (profile) => {
   const { id, provider, displayName, username } = profile;
-  const userExists = await connection.query(getUserById, [id]);
+  const userExists = await connection.query(getUserByUserId, [id]);
   if (userExists.rowCount == 0) {
     // if user doesn't exist
     const salt = await bcrypt.genSalt(10);
