@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import connection from "../utils/db.js";
+import { v4 as uuidv4 } from "uuid";
 import { addUsers, getAllUsersQuery, getUserById } from "../utils/Query.js";
 export const googleAuth = async (req, res) => {
   res.send("google is here");
@@ -39,6 +40,25 @@ export const addLocalUser = async (req, res) => {
   const { password, fullname, email } = req.body;
   try {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(id, salt);
-  } catch (error) {}
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const full_name = fullname;
+    const user = await connection.query(addUsers, [
+      uuidv4().toString(),
+      "local",
+      email,
+      hashedPassword,
+      full_name,
+    ]);
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "You've succesfuly registered you can login now",
+      });
+  } catch (error) {
+    res.json({
+      success: false,
+      errrorMessage: "Error occurred",
+    });
+  }
 };
