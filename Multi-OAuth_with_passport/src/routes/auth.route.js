@@ -36,12 +36,5 @@ authRouter
   // github routes
   .get("/github", passport.authenticate("github", { scope: ["user:email"] }))
 
-  .get(
-    "/github/callback",
-    passport.authenticate("github", { failureRedirect: "/login" }),
-    function (req, res) {
-      // Successful authentication, redirect home.
-      res.redirect("/");
-    }
-  );
+  .get("/github/callback", passport.authenticate("github"));
 export default authRouter;

@@ -11,6 +11,7 @@ export default passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         const user = await addUser(profile);
+        console.log("User in github", user);
         return done(null, user);
       } catch (error) {
         console.log(error);

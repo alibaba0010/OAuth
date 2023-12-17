@@ -34,7 +34,7 @@ export const addUser = async (profile) => {
       return error;
     }
   } else {
-    return "User already eists";
+    console.log("User already eists");
   }
 };
 export const addLocalUser = async (req, res) => {
