@@ -3,18 +3,22 @@ import GoogleStrategy from "passport-google-oauth20";
 import dotenv from "dotenv";
 import connection from "../utils/db.js";
 import { addUser } from "../controller/auth.js";
+import { getUserByDBId } from "../utils/Query.js";
 
 dotenv.config();
 
 // used to serialize the user for the session
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
   // user.id is going to req.session.passport.user
 });
 
-// used to deserialize the user
-passport.deserializeUser((id, done) => {
-  // User.findById(id, function (err, user) {
+// used to deserialize the user send user to browser
+passport.deserializeUser(async (user, done) => {
+  // const checkUser = await connection.query(getUserByDBId, [id]);
+  // if (!checkUser) {
+  //   return done(null, false);
+  // }
   done(null, user);
   // });
 });
@@ -29,9 +33,9 @@ export default passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         const user = await addUser(profile);
-        console.log("User .... ", user);
+        return done(null, user);
       } catch (error) {
-        // return done(null, profile);
+        return done(error);
         console.log(error);
       }
     }
