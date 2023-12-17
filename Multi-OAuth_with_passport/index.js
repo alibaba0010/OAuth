@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import connection from "./src/routes/utils/db.js";
 import authRouter from "./src/routes/auth.route.js";
 import { checkEmailExists, getUserByUserId } from "./src/routes/utils/Query.js";
+import { nextTick } from "process";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,7 +48,14 @@ app.get("/", async (req, res) => {
     res.sendFile(join(__dirname, "public", "auth.html"));
   }
 });
-app.use("/auth", authRouter);
+app.use("/auth", authRouter).use("/logout", (req, res) => {
+  req.secure.destroy((err) => {
+    if (err) {
+      return nextTick();
+    }
+    res.redirect("/");
+  });
+});
 
 connection
   .connect()
