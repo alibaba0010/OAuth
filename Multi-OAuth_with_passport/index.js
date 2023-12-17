@@ -38,11 +38,13 @@ app.use(express.static(join(__dirname + "/node_modules/bootstrap/dist")));
 
 app.get("/", async (req, res) => {
   if (req.isAuthenticated()) {
-    // res.send(`<h2>You're logged in successfully ${req.user}</h2>`);
+    console.log("Request User: ", req.user);
     const { user_id } = req.user;
     const checkProvider = await connection.query(getUserByUserId, [user_id]);
     res.json({
-      messge: `<h1>Hello you're logged in with provider ${checkProvider.rows[0].provider}</h1>`,
+      messge:
+        `<h1>Hello you're logged in with provider ${checkProvider.rows[0].provider}</h1>` +
+        '<a href="/logout">Logout Here</a>',
     });
   } else {
     res.sendFile(join(__dirname, "public", "auth.html"));

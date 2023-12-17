@@ -18,7 +18,7 @@ export default passport.use(
         const checkIfUserExists = await connection.query(getUserByUserId, [
           profile.id,
         ]);
-        if (checkIfUserExists) {
+        if (checkIfUserExists.rows[0]) {
           return done(null, checkIfUserExists.rows[0]);
         }
         const user = await addUser(profile);
