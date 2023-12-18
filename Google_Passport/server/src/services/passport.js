@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import User from "../models/user.mongo.js";
 passport.serializeUser((user, done) => {
-  // console.log("In serializeUser: ", user);
   done(null, user.id);
 });
 passport.deserializeUser((id, done) => {
@@ -38,7 +37,7 @@ export default passport.use(
           })
             .save()
             .then((newUser) => {
-              console.log("New User created: ", newUser);
+              // console.log("New User created: ", newUser);
               done(null, newUser);
             });
         }
