@@ -3,7 +3,6 @@ import passport from "passport";
 import session from "express-session";
 import dotenv from "dotenv";
 import FacebookStrategy from "./src/routes/middlewares/facebook.js";
-import ejs from "ejs";
 const app = express();
 dotenv.config();
 
@@ -24,8 +23,23 @@ app
 
   .get("/", (wreq, res) => {
     res.render("index.ejs");
-  });
+  })
+  .get("/auth/facebook", passport.authenticate("facebook"))
 
+  .get(
+    "/auth/facebook/callback",
+    passport.authenticate("facebook", {
+      successRedirect: "/profile",
+      failureRedirect: "/login",
+    })
+  )
+  // Profile route requires authentication
+  .get("/profile", (req, res) => {
+    res.json({ message: "You're logged in" });
+  })
+  .get("/login", (req, res) => {
+    res.redirect("/");
+  });
 app.listen(8000, () => {
   console.log("Listening at port 8000");
 });
