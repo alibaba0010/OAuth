@@ -27,7 +27,7 @@ export default passport.use(
         if (currentUser) {
           // console.log("In current User: ", currentUser);
 
-          done(null, currentUser);
+          return done(null, currentUser);
         } else {
           new User({
             username: displayName,
@@ -37,7 +37,7 @@ export default passport.use(
             .save()
             .then((newUser) => {
               // console.log("New User created: ", newUser);
-              done(null, newUser);
+              return done(null, newUser);
             });
         }
       });

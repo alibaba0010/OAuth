@@ -20,7 +20,11 @@ authRouter
     })
   )
   //GOGGLE REDIRECT
-  .get("/google/redirect", passport.authenticate("google"), googleRedirect)
+  .get(
+    "/google/redirect",
+    passport.authenticate("google", { failureRedirect: "/login" }),
+    googleRedirect
+  )
   //LOGOUT
   .get("/logout", logout);
 

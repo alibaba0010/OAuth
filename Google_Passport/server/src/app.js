@@ -26,13 +26,6 @@ app
       cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
     })
   )
-  // .use(
-  //   cookieSession({
-  //     maxAge: 24 * 60 * 60 * 1000,
-  //     keys: process.env.COOKIE_KEY,
-  //     secure: false,
-  //   })
-  // )
   .use(passport.initialize())
   .use(passport.session())
   .use(profileRouter)
