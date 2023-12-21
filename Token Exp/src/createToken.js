@@ -13,7 +13,7 @@ createToken.post("/user", async (req, res) => {
     if (checkIfEmailExists.rowCount !== 0)
       res.status(400).json({ errorMessage: "Email already exists" });
     // throw new Error("Email already exists");
-    const addUser = await pool.query(addUsers, [name, email]);
+    await pool.query(addUsers, [name, email]);
     const signInToken = jwt.sign({ email: email }, process.env.JWT_SEC, {
       expiresIn: "1m",
     });
