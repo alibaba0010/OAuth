@@ -10,3 +10,5 @@ const verifyToken = Router();
 verifyToken.get("/verify", authenticateUser, (req, res) => {
   res.json({ message: req.user });
 });
+
+export default verifyToken;

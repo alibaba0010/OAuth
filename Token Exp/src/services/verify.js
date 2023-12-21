@@ -4,8 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 export const authenticateUser = async (req, res, next) => {
   const { jwt: token } = req.session;
-  console.log("token: ", token);
-  if (oken) {
+  if (token) {
     try {
       const decode = jwt.verify(token, process.env.JWT_SEC);
       // if (decode.exp < Date.now() / 1000) {
@@ -17,7 +16,7 @@ export const authenticateUser = async (req, res, next) => {
       next();
     } catch (err) {
       req.session = null;
-      throw new UnauthenticatedError("Unable to authorize access, login again");
+      console.log("Unable to authorize access, login again");
     }
   } else {
     return res.status(403).send({ message: "No token provided" });
