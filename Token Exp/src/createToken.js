@@ -11,18 +11,20 @@ createToken.post("/user", async (req, res) => {
   try {
     const checkIfEmailExists = await pool.query(checkEmailExists, [email]);
     if (checkIfEmailExists.rowCount !== 0)
-      //  res.status(400).json({ errorMessage: "Email already exists" });
-      throw new Error("Email already exists");
+      res.status(400).json({ errorMessage: "Email already exists" });
+    // throw new Error("Email already exists");
     const addUser = await pool.query(addUsers, [name, email]);
     const signInToken = jwt.sign({ email: email }, process.env.JWT_SEC, {
       expiresIn: "1m",
     });
-    console.log(signInToken);
+    req.session = {
+      jwt: signInToken,
+    };
     res
       .status(201)
       .json({ message: "User successfully crweated", signInToken });
   } catch (error) {
-    res.json({ errorMessage: error });
+    console.log(error);
   }
   //   return signInToken;
 });
